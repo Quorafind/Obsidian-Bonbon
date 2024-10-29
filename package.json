@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-custom-plugin-starter",
+	"name": "bon-workflow",
 	"version": "0.0.1",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"description": "A workflow plugin for Obsidian, based on Boninall's workflow.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
