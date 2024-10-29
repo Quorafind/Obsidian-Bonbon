@@ -1,7 +1,7 @@
 {
-	"id": "bon-workflow",
-	"name": "Bon Workflow",
-	"version": "0.0.2",
+	"id": "bonbon",
+	"name": "Bonbon",
+	"version": "0.0.3",
 	"minAppVersion": "0.15.0",
 	"description": "A workflow plugin for Obsidian, based on Boninall's workflow.",
 	"author": "Boninall",
