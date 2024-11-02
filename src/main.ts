@@ -1,10 +1,28 @@
 import { Menu, Plugin, TAbstractFile, TFolder, WorkspaceLeaf } from "obsidian";
+import { TypeDropdownComponent } from "./Dropdown";
 
 export default class BonWorkflow extends Plugin {
 	async onload() {
 		this.registerEvent(
 			this.app.workspace.on("file-menu", this.onFileMenu.bind(this))
 		);
+
+		this.registerMarkdownPostProcessor((element, context) => {
+			const callouts = element.findAll(".callout");
+
+			for (const callout of callouts) {
+				const iconEl = callout?.find(".callout-icon");
+
+				if (iconEl) {
+					const dropdown = new TypeDropdownComponent(
+						iconEl,
+						(context as any).containerEl
+					);
+					dropdown.onload();
+					this.addChild(dropdown);
+				}
+			}
+		});
 	}
 
 	onunload() {}
