@@ -48,6 +48,10 @@ export class TypeDropdownComponent extends Component {
 	private toggleMenu(event: MouseEvent) {
 		event.stopPropagation();
 
+		if (!this.containerEl.cmView) {
+			return;
+		}
+
 		const menu = new Menu();
 		Object.entries(supportedTypes).forEach(([type, info]) => {
 			menu.addItem((item) => {

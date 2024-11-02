@@ -15,3 +15,7 @@
 .dropdown-trigger:hover {
 	background: var(--background-modifier-form-field-hover);
 }
+
+.markdown-preview-sizer .dropdown-trigger::before {
+	display: none;
+}
