@@ -18,9 +18,15 @@ In my imagination, Bonbon will have a lot of candy-level small features.
 
 ## File Explorer
 
-- Support search in selected folder. Right click on a folder and select "Search in selected folder" to search in the folder.
-- Support search in selected file. Right click on a file and select "Search in selected file" to search in the file.
+- Supports searching within selected folders. Right-click a folder and select "Search in selected folder" to search within it.
+  支持在选中的文件夹中搜索。右键点击文件夹并选择"在选中文件夹中搜索"即可在该文件夹中进行搜索。
+- Supports searching within selected files. Right-click a file and select "Search in selected file" to search within it.
+  支持在选中的文件中搜索。右键点击文件并选择"在选中文件中搜索"即可在该文件中进行搜索。
+- Supports folder task status marking (Adding `- [ ] folder name` in the root TODO.md file will mark that folder as a TODO)
+  支持文件夹任务状态标记（根目录下的 TODO.md 文件中使用 `- [ ] 文件夹名称` 可以将文件夹标记为待办）
 
 ## Callout
 
 - Add a dropdown to the callout icon to change the callout type.
+  为 callout 图标添加一个下拉菜单，以更改 callout 类型。
+ 
