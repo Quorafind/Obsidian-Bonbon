@@ -73,7 +73,7 @@ export async function extractFolderNames(
 			return {
 				name:
 					text
-						.replace(/^[-*\d.]*\s*\[[^\]]*\]\s*/, "")
+						.replace(/^\s*?[-*\d.]*\s*\[[^\]]*\]\s*/, "")
 						.replace(/\d{14}/g, "")
 						.trim() || "",
 				status: item.task || "", // Ensure status is never undefined
@@ -101,11 +101,10 @@ export async function updateFileExplorerCheckboxes(
 	document.querySelectorAll(".task-checkbox").forEach((el) => el.detach());
 
 	Object.values(fileItems).forEach((fileItem) => {
-		if (!(fileItem.file instanceof TFolder)) return;
-
-		const folderName = fileItem.file.name;
+		const itemName = fileItem.file.name;
 		const matchingTask = folderNames.find(
-			(task: FolderTaskItem) => task.name === folderName.split("/").pop()
+			(task: FolderTaskItem) =>
+				task.name === itemName.split("/").pop()?.split(".")[0] 
 		);
 
 		if (matchingTask) {
@@ -116,7 +115,7 @@ export async function updateFileExplorerCheckboxes(
 			checkbox.disabled = true;
 			checkbox.dataset.task = matchingTask.status;
 
-			// 在文件名前插入复选框
+			// Insert checkbox before the file/folder name
 			fileItem.selfEl.insertBefore(checkbox, fileItem.innerEl);
 		}
 	});
