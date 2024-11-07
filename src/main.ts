@@ -81,7 +81,11 @@ export default class BonWorkflow extends Plugin {
 	) {
 		menu.addItem((item) => {
 			item.setIcon("search")
-				.setTitle("Search in selected folder")
+				.setTitle(
+					file instanceof TFolder
+						? "Search in selected folder"
+						: "Search in selected file"
+				)
 				.onClick(() => {
 					const leaf =
 						this.app.workspace.getLeavesOfType("search")[0];
