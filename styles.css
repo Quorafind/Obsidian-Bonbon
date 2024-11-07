@@ -19,3 +19,7 @@
 .markdown-preview-sizer .dropdown-trigger::before {
 	display: none;
 }
+
+.task-checkbox {
+	--checkbox-size: 14px;
+}

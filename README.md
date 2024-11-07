@@ -2,7 +2,7 @@
 
 A plugin for Obsidian, based on Boninall's workflow.
 
-一个基于 Boninall 工作流的小插件。
+一个完全基于 Boninall 工作流的小插件。
 
 Over time, I have had many small ideas for improving Obsidian. Sometimes these ideas are too small to warrant publishing as standalone plugins, but I still frequently need these minor improvements.
 

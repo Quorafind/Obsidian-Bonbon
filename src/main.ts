@@ -1,28 +1,74 @@
-import { Menu, Plugin, TAbstractFile, TFolder, WorkspaceLeaf } from "obsidian";
+import {
+	Menu,
+	Plugin,
+	TAbstractFile,
+	TFolder,
+	WorkspaceLeaf,
+	TFile,
+	CachedMetadata,
+	ListItemCache,
+} from "obsidian";
 import { TypeDropdownComponent } from "./Dropdown";
+import {
+	FolderTaskItem,
+	handleCallouts,
+	handleTaskChanges,
+	updateFileExplorerCheckboxes,
+} from "./utils";
 
 export default class BonWorkflow extends Plugin {
+	private folderNames: FolderTaskItem[] = [];
+
 	async onload() {
+		// Load initial task folders from specified note
+		this.app.workspace.onLayoutReady(async () => {
+			const file = this.app.vault.getFileByPath("TODO.md");
+			console.log(
+				file,
+				this.app.metadataCache.getFileCache(file as TFile)
+			);
+			if (file) {
+				const taskItems = await handleTaskChanges(
+					this.app,
+					file,
+					this.app.metadataCache.getFileCache(file) as CachedMetadata
+				);
+				console.log(taskItems);
+				if (taskItems) {
+					this.folderNames = taskItems;
+					updateFileExplorerCheckboxes(this.app, this.folderNames);
+				}
+			}
+		});
+
+		// Monitor for task changes
+		this.registerEvent(
+			this.app.metadataCache.on(
+				"changed",
+				async (file: TFile, data: string, cache: CachedMetadata) => {
+					const taskItems = await handleTaskChanges(
+						this.app,
+						file,
+						cache
+					);
+					if (taskItems) {
+						this.folderNames = taskItems;
+						updateFileExplorerCheckboxes(
+							this.app,
+							this.folderNames
+						);
+					}
+				}
+			)
+		);
+
 		this.registerEvent(
 			this.app.workspace.on("file-menu", this.onFileMenu.bind(this))
 		);
 
-		this.registerMarkdownPostProcessor((element, context) => {
-			const callouts = element.findAll(".callout");
-
-			for (const callout of callouts) {
-				const iconEl = callout?.find(".callout-icon");
-
-				if (iconEl) {
-					const dropdown = new TypeDropdownComponent(
-						iconEl,
-						(context as any).containerEl
-					);
-					dropdown.onload();
-					this.addChild(dropdown);
-				}
-			}
-		});
+		this.registerMarkdownPostProcessor((element, context) =>
+			handleCallouts(element, this, context)
+		);
 	}
 
 	onunload() {}
