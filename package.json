@@ -11,9 +11,8 @@
 		"test": "vitest",
 		"coverage": "vitest run --coverage"
 	},
-	"keywords": [],
-	"author": "",
-	"license": "MIT",
+	"keywords": ["obsidian", "workflow", "boninall"],
+	"author": "Boninall",
 	"devDependencies": {
 		"@types/node": "^20.0.0",
 		"@typescript-eslint/eslint-plugin": "5.29.0",
