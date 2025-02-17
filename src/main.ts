@@ -1,25 +1,28 @@
 import {
-	Menu,
+	type Menu,
 	Plugin,
-	TAbstractFile,
+	type TAbstractFile,
 	TFolder,
-	WorkspaceLeaf,
-	TFile,
-	CachedMetadata,
+	type WorkspaceLeaf,
+	type TFile,
+	type CachedMetadata,
 } from "obsidian";
 import {
-	FolderTaskItem,
+	type FolderTaskItem,
 	handleCallouts,
 	handleTaskChanges,
 	updateFileExplorerCheckboxes,
 } from "./utils";
+import { inputCounter } from "./editor/countInput";
+import { CustomStatusBar } from "./statusbar";
 // import { VIEW_TYPE } from "./view";
 
 export default class BonWorkflow extends Plugin {
 	private folderNames: FolderTaskItem[] = [];
+	private statusBar: CustomStatusBar;
 
 	async onload() {
-		// Load initial task folders from specified note
+		this.loadStatusBar();
 		this.app.workspace.onLayoutReady(async () => {
 			const file = this.app.vault.getFileByPath("TODO.md");
 			if (!file) {
@@ -68,10 +71,31 @@ export default class BonWorkflow extends Plugin {
 			handleCallouts(element, this, context)
 		);
 
+		this.registerEditorExtension(
+			inputCounter({
+				countChars: true,
+				countPunctuation: true,
+				onChange: (counts) => {
+					this.statusBar.update(counts);
+				},
+				getCounts: () => {
+					return this.statusBar.getCounts();
+				},
+			})
+		);
+
 		// this.registerView(VIEW_TYPE, (leaf) => new TemplateManagerView(leaf));
 	}
 
 	onunload() {}
+
+	loadStatusBar() {
+		this.statusBar = new CustomStatusBar(this.addStatusBarItem(), {
+			countChars: true,
+		});
+		// this.statusBar.onload();
+		this.addChild(this.statusBar);
+	}
 
 	onFileMenu(
 		menu: Menu,

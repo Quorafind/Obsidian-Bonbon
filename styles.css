@@ -741,3 +741,13 @@
 	box-shadow: 0 0 0 1px var(--interactive-accent);
 	opacity: 0.8;
 }
+
+.bonbon-status-bar {
+	display: flex;
+	gap: var(--size-2-2);
+}
+
+.bonbon-status-bar-item.is-active > svg {
+	fill: hsl(var(--accent-h),var(--accent-s),var(--accent-l), 0.5);
+	transition: fill 0.2s ease-in-out;
+}

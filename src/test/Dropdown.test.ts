@@ -11,7 +11,7 @@ vi.mock("obsidian", () => ({
 }));
 
 // 其他导入
-import { TypeDropdownComponent, supportedTypes } from "../Dropdown";
+import { TypeDropdownComponent, supportedTypes } from "../dropdown";
 import { createMockElement } from "./mocks";
 
 describe("TypeDropdownComponent", () => {

@@ -1,4 +1,4 @@
-import { TypeDropdownComponent } from "./Dropdown";
+import { TypeDropdownComponent } from "./dropdown";
 
 import {
 	App,
@@ -104,7 +104,7 @@ export async function updateFileExplorerCheckboxes(
 		const itemName = fileItem.file.name;
 		const matchingTask = folderNames.find(
 			(task: FolderTaskItem) =>
-				task.name === itemName.split("/").pop()?.split(".")[0] 
+				task.name === itemName.split("/").pop()?.split(".")[0]
 		);
 
 		if (matchingTask) {

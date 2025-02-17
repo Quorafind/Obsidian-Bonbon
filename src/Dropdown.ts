@@ -53,7 +53,7 @@ export class TypeDropdownComponent extends Component {
 		}
 
 		const menu = new Menu();
-		Object.entries(supportedTypes).forEach(([type, info]) => {
+		for (const [type, info] of Object.entries(supportedTypes)) {
 			menu.addItem((item) => {
 				item.setIcon(info.icon);
 				item.setTitle(info.name);
@@ -67,7 +67,7 @@ export class TypeDropdownComponent extends Component {
 					);
 				});
 			});
-		});
+		}
 
 		menu.showAtMouseEvent(event);
 	}
