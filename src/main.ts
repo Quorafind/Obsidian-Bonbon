@@ -75,7 +75,7 @@ export default class BonWorkflow extends Plugin {
 			handleCallouts(element, this, context)
 		);
 
-		this.registerView(VIEW_TYPE, (leaf) => new TemplateManagerView(leaf));
+		// this.registerView(VIEW_TYPE, (leaf) => new TemplateManagerView(leaf));
 	}
 
 	onunload() {}
