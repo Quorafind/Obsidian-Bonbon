@@ -6,20 +6,14 @@ import {
 	WorkspaceLeaf,
 	TFile,
 	CachedMetadata,
-	ListItemCache,
-	App,
-	Modal,
-	MarkdownRenderer,
-	Component,
 } from "obsidian";
-import { TypeDropdownComponent } from "./Dropdown";
 import {
 	FolderTaskItem,
 	handleCallouts,
 	handleTaskChanges,
 	updateFileExplorerCheckboxes,
 } from "./utils";
-import { TemplateManagerView, VIEW_TYPE } from "./view";
+// import { VIEW_TYPE } from "./view";
 
 export default class BonWorkflow extends Plugin {
 	private folderNames: FolderTaskItem[] = [];
@@ -28,10 +22,9 @@ export default class BonWorkflow extends Plugin {
 		// Load initial task folders from specified note
 		this.app.workspace.onLayoutReady(async () => {
 			const file = this.app.vault.getFileByPath("TODO.md");
-			console.log(
-				file,
-				this.app.metadataCache.getFileCache(file as TFile)
-			);
+			if (!file) {
+				return;
+			}
 			if (file) {
 				const taskItems = await handleTaskChanges(
 					this.app,
@@ -119,29 +112,29 @@ export default class BonWorkflow extends Plugin {
 				});
 		});
 
-		if (file instanceof TFolder) {
-			menu.addItem((item) => {
-				item.setIcon("layout-template")
-					.setTitle("Template Manager")
-					.onClick(() => {
-						this.activateView(file);
-					});
-			});
-		}
+		// if (file instanceof TFolder) {
+		// 	menu.addItem((item) => {
+		// 		item.setIcon("layout-template")
+		// 			.setTitle("Template Manager")
+		// 			.onClick(() => {
+		// 				this.activateView(file);
+		// 			});
+		// 	});
+		// }
 	}
 
-	async activateView(folder: TFolder = this.app.vault.getRoot()) {
-		const { workspace } = this.app;
-		let leaf = workspace.getLeaf(true);
+	// async activateView(folder: TFolder = this.app.vault.getRoot()) {
+	// 	const { workspace } = this.app;
+	// 	let leaf = workspace.getLeaf(true);
 
-		await leaf.setViewState({
-			type: VIEW_TYPE,
-			active: true,
-			state: {
-				folder: folder.path,
-			},
-		});
+	// 	await leaf.setViewState({
+	// 		type: VIEW_TYPE,
+	// 		active: true,
+	// 		state: {
+	// 			folder: folder.path,
+	// 		},
+	// 	});
 
-		workspace.revealLeaf(leaf);
-	}
+	// 	workspace.revealLeaf(leaf);
+	// }
 }
