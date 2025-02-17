@@ -7,6 +7,10 @@ import {
 	TFile,
 	CachedMetadata,
 	ListItemCache,
+	App,
+	Modal,
+	MarkdownRenderer,
+	Component,
 } from "obsidian";
 import { TypeDropdownComponent } from "./Dropdown";
 import {
@@ -15,6 +19,7 @@ import {
 	handleTaskChanges,
 	updateFileExplorerCheckboxes,
 } from "./utils";
+import { TemplateManagerView, VIEW_TYPE } from "./view";
 
 export default class BonWorkflow extends Plugin {
 	private folderNames: FolderTaskItem[] = [];
@@ -33,7 +38,7 @@ export default class BonWorkflow extends Plugin {
 					file,
 					this.app.metadataCache.getFileCache(file) as CachedMetadata
 				);
-				console.log(taskItems);
+
 				if (taskItems) {
 					this.folderNames = taskItems;
 					updateFileExplorerCheckboxes(this.app, this.folderNames);
@@ -69,6 +74,8 @@ export default class BonWorkflow extends Plugin {
 		this.registerMarkdownPostProcessor((element, context) =>
 			handleCallouts(element, this, context)
 		);
+
+		this.registerView(VIEW_TYPE, (leaf) => new TemplateManagerView(leaf));
 	}
 
 	onunload() {}
@@ -111,5 +118,30 @@ export default class BonWorkflow extends Plugin {
 					);
 				});
 		});
+
+		if (file instanceof TFolder) {
+			menu.addItem((item) => {
+				item.setIcon("layout-template")
+					.setTitle("Template Manager")
+					.onClick(() => {
+						this.activateView(file);
+					});
+			});
+		}
+	}
+
+	async activateView(folder: TFolder = this.app.vault.getRoot()) {
+		const { workspace } = this.app;
+		let leaf = workspace.getLeaf(true);
+
+		await leaf.setViewState({
+			type: VIEW_TYPE,
+			active: true,
+			state: {
+				folder: folder.path,
+			},
+		});
+
+		workspace.revealLeaf(leaf);
 	}
 }
