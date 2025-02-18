@@ -15,13 +15,17 @@ import {
 } from "./utils";
 import { inputCounter } from "./editor/countInput";
 import { CustomStatusBar } from "./statusbar";
+import { BONBON_SETTINGS, type BonbonSettings } from "./settings";
 // import { VIEW_TYPE } from "./view";
 
 export default class BonWorkflow extends Plugin {
 	private folderNames: FolderTaskItem[] = [];
 	private statusBar: CustomStatusBar;
 
+	public settings: BonbonSettings;
+
 	async onload() {
+		await this.loadSettings();
 		this.loadStatusBar();
 		this.app.workspace.onLayoutReady(async () => {
 			const file = this.app.vault.getFileByPath("TODO.md");
@@ -90,10 +94,13 @@ export default class BonWorkflow extends Plugin {
 	onunload() {}
 
 	loadStatusBar() {
-		this.statusBar = new CustomStatusBar(this.addStatusBarItem(), {
-			countChars: true,
-		});
-		// this.statusBar.onload();
+		this.statusBar = new CustomStatusBar(
+			this.addStatusBarItem(),
+			{
+				countChars: true,
+			},
+			this
+		);
 		this.addChild(this.statusBar);
 	}
 
@@ -113,7 +120,7 @@ export default class BonWorkflow extends Plugin {
 				.onClick(() => {
 					const leaf =
 						this.app.workspace.getLeavesOfType("search")[0];
-					if (leaf && leaf.isDeferred) {
+					if (leaf?.isDeferred) {
 						leaf.loadIfDeferred();
 					}
 					const viewState = leaf?.getViewState();
@@ -161,4 +168,16 @@ export default class BonWorkflow extends Plugin {
 
 	// 	workspace.revealLeaf(leaf);
 	// }
+
+	async loadSettings() {
+		this.settings = Object.assign(
+			{},
+			BONBON_SETTINGS,
+			await this.loadData()
+		);
+	}
+
+	async saveSettings() {
+		await this.saveData(this.settings);
+	}
 }

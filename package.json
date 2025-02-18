@@ -1,6 +1,6 @@
 {
 	"name": "bonbon",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"description": "A workflow plugin for Obsidian, based on Boninall's workflow.",
 	"main": "main.js",
 	"type": "module",
