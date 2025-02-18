@@ -457,13 +457,13 @@ export class TemplateService {
 			return {
 				...child,
 				structure:
-					rules?.structure?.mode === "merge"
-						? this.mergeStructures(
+					rules?.structure?.mode === "replace"
+						? child.structure
+						: this.mergeStructures(
 								parent.structure,
 								child.structure,
-								rules.structure
-						  )
-						: child.structure,
+								rules?.structure
+						  ),
 			};
 		}
 
@@ -545,8 +545,9 @@ export class TemplateService {
 			fields.length > 0 ? fields : Object.keys(childMetadata);
 
 		for (const field of fieldsToMerge) {
-			if (field in childMetadata) {
-				mergedMetadata[field] = childMetadata[field];
+			if (field in childMetadata && field in parentMetadata) {
+				(mergedMetadata as any)[field] =
+					childMetadata[field as keyof typeof childMetadata];
 			}
 		}
 
