@@ -15,6 +15,7 @@ In my imagination, Bonbon will have a lot of candy-level small features.
 - Supports searching within selected folders. Right-click a folder and select "Search in selected folder" to search within it.
 - Supports searching within selected files. Right-click a file and select "Search in selected file" to search within it.
 - Supports folder task status marking (Adding `- [ ] folder name` in the root TODO.md file will mark that folder as a TODO)
+- Supports total character count/daily character count in the status bar.
 
 ## Callout
 
